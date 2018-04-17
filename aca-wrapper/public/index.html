@@ -42,8 +42,14 @@
     -->
 
   <script>
-    /*
-      Must have file named setIntercom.js with contents:
+    /* Secret keeping workaround for not being able to customize Webpack:
+      (also make sure to whitelist domain in Settings > App Settings > General Settings)
+
+      Make a file named .env with `export INTERCOM_ID="APP ID HERE"`.
+      In the terminal, type `source .env`.
+      Open a new terminal window and run the app.
+
+      Must also have file named setIntercom.js with contents:
       function setIntercom() {
         window.intercomSettings = {
           app_id: "APP ID HERE"
@@ -64,7 +70,7 @@
         var s=d.createElement('script');
         s.type='text/javascript';
         s.async=true;
-        s.src=`https://widget.intercom.io/widget/${intercomAppId}`;
+        s.src=`https://widget.intercom.io/widget/${process.env.INTERCOM_ID}`;
         var x=d.getElementsByTagName('script')[0];
         x.parentNode.insertBefore(s,x);
       }
@@ -79,7 +85,8 @@
     #live-chat-accessibility-message {
       display: none;
       background-color: #f4903e;
-      position: absolute;
+      position: fixed;
+      background-attachment: scroll;
       right: 6vw;
       bottom: 18vh;
       padding: 1em;
@@ -87,6 +94,7 @@
       font-size: 1em;
       font-weight: bolder;
       border-radius: 10px;
+      font-family: sans-serif;
     }
 
     #live-chat-accessibility-message.visible {
