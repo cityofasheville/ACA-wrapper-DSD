@@ -1,14 +1,6 @@
 # ACA-wrapper-DSD
-Wrapper in which to iframe Accela Citizen Access
+Wrapper in which to iframe Accela Citizen Access.  See aca-wrapper/public/index.html for instructions to set up Intercom.
 
-Needs a folder called setIntercom.js with:
-```
-function setIntercom() {
-  window.intercomSettings = {
-    app_id: "APP ID HERE"
-  };
-}
-```
 
 ## TO DO
 * Get correct DSD number-- also hide it in secrets file?

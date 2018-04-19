@@ -47,7 +47,7 @@
 
       Make a file named .env with `export INTERCOM_ID="APP ID HERE"`.
       In the terminal, type `source .env`.
-      Open a new terminal window and run the app.
+      Open a new terminal tab and run the app.
 
       Must also have file named setIntercom.js with contents:
       function setIntercom() {
@@ -84,6 +84,7 @@
   <style type="text/css">
     #live-chat-accessibility-message {
       display: none;
+      /* CHANGE THIS BACKGROUND COLOR TO BE SLIGHTLY LIGHTER THAN YOUR INTERCOM COLOR TO SHOW FOCUS */
       background-color: #f4903e;
       position: fixed;
       background-attachment: scroll;
@@ -103,6 +104,7 @@
   </style>
 
   <script type="text/javascript">
+    // CUSTOMIZE THIS ALT TEXT TO PROVIDE YOUR PHONE NUMBER
     const altText = 'Live chat is not accessible without mouse. Please call PHONE NUMBER for assistance with Accela Citizen Access.'
 
     const addAria = setInterval(function() {
@@ -124,8 +126,9 @@
         accessibilityMessageDiv.innerHTML = altText
 
         intercom.onfocus = function() {
+          // CHANGE THIS COLOR TO MATCH THE BACKGROUND COLOR OF FOCUSED INTERCOM (SEE STYLE TAG)
           this.style['background-color'] = '#f4903e'
-          // Visible div style is display: unset, as set by App.css
+          // Visible div style is display: unset, as set above
           accessibilityMessageDiv.setAttribute('class', 'visible')
         }
         intercom.onblur = function() {
