@@ -2,62 +2,33 @@
 <html>
 <head>
   <title>Accela Citizen Access</title>
-  <link rel="shortcut icon" type="image/png" href="https://s3.amazonaws.com/simplicity.ashevillenc.gov/favicon.ico"/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="shortcut icon" type="image/png" href="https://s3.amazonaws.com/coa-cdn/logo-square-no-text.png"/>
   <style type="text/css">
-      html, body {
-      height: 100vh;
+    html, body {
+      /* height: 100vh;
       width: 100vw;
       margin: 0;
-      padding: 0;
-      overflow: none;
+      padding: 0; */
+      /* overflow: none; */
       font-family: sans-serif;
     }
 
-    .header {
-      height: 10vh;
-      background-color: rgba(0, 72, 134, 0.8);
-      color: white;
+    /* Mostly from https://medium.com/@heyoka/responsive-pure-css-off-canvas-hamburger-menu-aebc8d11d793 */
+
+    header {
+      height: 3em;
       text-align: center;
-      position: relative;
+      border-bottom: 0.1px solid #d9d9d9;
     }
 
-    .header div, .header nav {
-      display: inline-block;
-    }
-
-    .header #city-icon {
-      width: 30vw;
-      position: absolute;
-      left: 0;
-    }
-
-    .header #city-icon img {
-      position: relative;
-      padding: 1vh 2vw;
-      height: 8vh;
-    }
-
-    .header nav {
-      position: absolute;
-      bottom: 1vh;
-      left: 65vw;
-    }
-
-    .header nav ul {
-      margin: 0 auto;
-    }
-
-    nav ul li {
-      font-size: 1.25em;
-      letter-spacing: 0.05em;
-      display: inline-block;
-      padding: 0 2vw;
-      font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue";
-    }
-
-    nav ul li a {
-      color: white;
+    a.logo {
       text-decoration: none;
+    }
+
+    .logo img {
+      height: 2em;
+      padding: 0.1em 0.1em 0;
     }
 
     .content {
@@ -70,31 +41,281 @@
       width: 100vw;
       border: 0px;
     }
+    /* Screen reader only */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+
+    /* Button styling */
+    .menu-toggle {
+      position: absolute;
+      left: 0;
+      display: inline-block;
+      padding: .75em 15px;
+      line-height: 1em;
+      font-size: 1em;
+      color: #00488b;
+    }
+
+    .menu-toggle:hover,
+    .menu-toggle:focus {
+      /* color: gray; */
+      background-color:  #d9d9d9;
+    }
+
+    /*
+     Default styles + Mobile first
+     Offscreen menu style
+    */
+    .main-menu {
+      position: absolute;
+      left: -200px;
+      top: 0;
+      height: 100%;
+    	overflow-y: scroll;
+    	overflow-x: visible;
+    	transition: left 0.3s ease,
+    				      box-shadow 0.3s ease;
+    	z-index: 999;
+    }
+
+    .main-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 2.5em 0 0;
+      /* Hide shadow w/ -8px while 'closed' */
+      -webkit-box-shadow: -8px 0 8px rgba(0,0,0,.5);
+         -moz-box-shadow: -8px 0 8px rgba(0,0,0,.5);
+              box-shadow: -8px 0 8px rgba(0,0,0,.5);
+      min-height: 100%;
+      width: 200px;
+      background: white;
+      text-align: left;
+    }
+
+    .main-menu a {
+      display: block;
+      padding: .75em 15px;
+      line-height: 1em;
+      font-size: 1em;
+      color: #00488b;
+      text-decoration: none;
+      /* border-bottom: 1px solid  #d9d9d9; */
+    }
+
+    .main-menu li:first-child a {
+      border-top: 1px solid  #d9d9d9;
+    }
+
+    .main-menu a:hover,
+    .main-menu a:focus {
+      background:  #d9d9d9;
+      text-decoration: underline;
+    }
+
+    .main-menu .menu-close {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    /*
+     On small devices, allow it to toggle...
+    */
+    /*
+     :target for non-JavaScript
+     aria-expanded="true/false" will be for JavaScript
+    */
+    .main-menu:target,
+    .main-menu[aria-expanded="true"] {
+      left: 0;
+      outline: none;
+      -moz-box-shadow: 3px 0 12px rgba(0,0,0,.25);
+      -webkit-box-shadow: 3px 0 12px rgba(0,0,0,.25);
+      box-shadow: 3px 0 12px rgba(0,0,0,.25);
+    }
+
+    .main-menu:target .menu-close,
+    .main-menu[aria-expanded="true"] .menu-close {
+      z-index: 1001;
+    }
+
+    .main-menu:target ul,
+    .main-menu[aria-expanded="true"] ul {
+      position: relative;
+      z-index: 1000;
+    }
+
+    /*
+     We could us `.main-menu:target:after`, but
+     it wouldn't be clickable.
+    */
+    .main-menu:target + .backdrop,
+    .main-menu[aria-expanded="true"] + .backdrop {
+      position: absolute;
+      display: block;
+      content: "";
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 998;
+      background: #000;
+      background: rgba(0,0,0,.5);
+      cursor: default;
+    }
+
+    @supports (position: fixed) {
+      .main-menu,
+      .main-menu:target + .backdrop,
+      .main-menu[aria-expanded="true"] + .backdrop {
+        position: fixed;
+      }
+    }
+
+    /*
+     Larger screen styling
+     Horizontal menu
+    */
+    @media (min-width: 768px) {
+      .menu-toggle,
+      .main-menu .menu-close {
+        display: none;
+      }
+
+      header {
+        text-align: right;
+        border-bottom: 0.1px solid #d9d9d9;
+      }
+
+      a.logo {
+        text-decoration: none;
+        position: absolute;
+        left: 1em;
+      }
+
+      .logo img {
+        height: 5vh;
+        min-height: 2em;
+        padding: 0.1em 0.1em 0;
+      }
+
+      /* Undo positioning of off-canvas menu */
+      .main-menu {
+        display: inline-block;
+        position: relative;
+    		left: unset;
+    		top: auto;
+    		height: 100%;
+        bottom: 0;
+      }
+
+      .main-menu ul {
+        display: flex;
+
+        /* Undo off-canvas styling */
+        padding: 0;
+        -webkit-box-shadow: none;
+           -moz-box-shadow: none;
+                box-shadow: none;
+        height: auto;
+        width: auto;
+        background: none;
+      }
+
+      .main-menu a {
+        border: 0 !important; /* Remove borders from off-canvas styling */
+      }
+
+      .main-menu a:hover,
+      .main-menu a:focus {
+        background: none; /* Remove background from off-canvas styling */
+        color: #00488b;
+      }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.75em;
+      border-top: 0.1px solid #d9d9d9;
+      padding-top: 1em;
+    }
+
+    img.no-text-logo {
+      height: 2em;
+    }
+
   </style>
 </head>
 <body>
+  <header>
+    <a href="#main-menu"
+       role="button"
+       id="main-menu-toggle"
+       class="menu-toggle"
+       aria-expanded="false"
+       aria-controls="main-menu"
+       aria-label="Open main menu">
+      <span class="sr-only">Open main menu</span>
+      <span class="fa fa-bars" aria-hidden="true"></span>
+    </a>
 
-  <div class='header'>
-    <div id='city-icon'>
-      <a title="City of Asheville main page" href="https://www.ashevillenc.gov" target="_blank" rel="noopener">
-        <img src="https://www.ashevillenc.gov/img/00/layout/citylogo.png">
+    <a class="logo" title="City of Asheville main page" href="https://www.ashevillenc.gov" target="_blank" rel="noopener">
+      <img src="https://s3.amazonaws.com/coa-cdn/logo-primary.png">
+    </a>
+
+    <nav id="main-menu" role="navigation" class="main-menu" aria-expanded="false" aria-label="Main menu">
+      <a href="#main-menu-toggle"
+         role="button"
+         id="main-menu-close"
+         class="menu-close"
+         aria-expanded="false"
+         aria-controls="main-menu"
+         aria-label="Close main menu">
+
+        <span class="sr-only">Close main menu</span>
+        <span class="far fa-times-circle" aria-hidden="true"></span>
       </a>
-    </div>
-    <nav>
       <ul>
-        <li>
-          <a href="https://www.ashevillenc.gov/departments/development/default.htm" target="_blank" rel="noopener">
-            Development Services Main
-          </a>
-        </li>
-        <li>FAQ</li>
+        <li><a href="#">Development Services Home</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Contact</a></li>
       </ul>
     </nav>
-  </div>
+    <a href="#main-menu-toggle"
+       class="backdrop"
+       tabindex="-1"
+       aria-hidden="true" hidden></a>
+  </header>
 
   <div class='content'>
-    <iframe id="avl-aca-frame" src="https://services.ashevillenc.gov/ACADEV/Welcome.aspx"></iframe>
+    <!-- <iframe id="avl-aca-frame" src="https://services.ashevillenc.gov/ACADEV/Welcome.aspx"></iframe> -->
   </div>
+
+  <footer>
+    <img class="no-text-logo" src="https://s3.amazonaws.com/coa-cdn/logo-square-no-text.png">
+    <div>
+      <br>
+      The City of Asheville
+      <br>
+      70 Court Plaza
+      <br>
+      P.O. Box 7148
+      <br>
+      Asheville, NC 28002
+      <br>
+      <br>
+      828-251-1122
+      <br>
+    </div>
+  </footer>
 
 </body>
 </html>
