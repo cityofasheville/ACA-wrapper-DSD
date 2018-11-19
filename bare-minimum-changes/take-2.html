@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="https://s3.amazonaws.com/coa-cdn/logo-square-no-text.png"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <style media="screen">
+      html, body {
+        font-family: sans-serif;
+        color: #00488b;
+      }
+      header {
+        height: 3em;
+        text-align: center;
+        border-bottom: 0.1px solid #d9d9d9;
+      }
+      #flyout-menu {
+        position: absolute;
+        top: 1em;
+      }
+      .menu-arrow {
+        padding: 0 0.5em;
+      }
+      .has-submenu {
+        border: 1px solid red;
+      }
+      .has-submenu.closed .menu-arrow.opened, .has-submenu.opened .menu-arrow.closed {
+        display: none;
+      }
+      .has-submenu.opened .menu-arrow.opened, .has-submenu.closed .menu-arrow.closed {
+        display: unset;
+      }
+      a.logo {
+        text-decoration: none;
+      }
+      .logo img {
+        height: 2em;
+        padding: 0.1em 0.1em 0;
+      }
+      nav {
+        position: absolute;
+        text-align: left;
+      }
+      nav ul {
+        list-style: none;
+      }
+      main {
+        height: 90vh;
+      }
+      footer {
+        text-align: center;
+        font-size: 0.75em;
+        border-top: 0.1px solid #d9d9d9;
+        padding: 1em 0;
+      }
+      img.no-text-logo {
+        height: 2em;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div id="flyout-menu" class="has-submenu closed">
+        <span class="submenu-opener-text">Menu</span>
+        <span class="menu-arrow closed">&rarr;</span><span class="menu-arrow opened">&larr;</span>
+      </div>
+      <a class="logo" title="City of Asheville main page" href="https://www.ashevillenc.gov" target="_blank" rel="noopener">
+        <img src="https://s3.amazonaws.com/coa-cdn/logo-primary.png">
+      </a>
+      <nav>
+        <ul>
+          <li><a href="https://services.ashevillenc.gov/ACATest/Announcement/AnnouncementList.aspx">Announcements</a></li>
+          <li><a href="https://services.ashevillenc.gov/ACATest/Login.aspx">Login</a></li>
+          <li><a href="https://services.ashevillenc.gov/ACATest/Account/RegisterDisclaimer.aspx">Register</a></li>
+          <li class="has-submenu closed">
+            <div>
+              <span class="submenu-opener-text">Reports</span>
+              <span class="menu-arrow opened">&uarr;</span>
+              <span class="menu-arrow closed">&darr;</span>
+            </div>
+            <ul class="accessible-dropdown-nav-list">
+              <li>Report 1</li>
+              <li>Report 2</li>
+              <li>Report 3</li>
+            </ul>
+          </li>
+          <li><a target="_blank" rel="noreferrer noopener" href="https://www.ashevillenc.gov/departments/development/default.htm">
+            Development Services<span class="menu-arrow">&#8663;</span>
+          </a></li>
+        </ul>
+        <script type="text/javascript">
+          var subMenuItems = document.querySelectorAll('.has-submenu.closed')
+
+          Array.prototype.forEach.call(subMenuItems, function(el, i){
+          	var activatingEl = el.querySelector('.submenu-opener-text');
+            console.log(activatingEl)
+          	var btn = '<button><span><span class="visuallyhidden">show submenu for “' + activatingEl.textContent + '”</span></span></button>';
+          	activatingEl.insertAdjacentHTML('afterend', btn);
+
+          	el.querySelector('button').addEventListener("click",  function(event){
+          		if (this.parentNode.className == "has-submenu") {
+          			this.parentNode.className = "has-submenu open";
+          			this.parentNode.querySelector('a').setAttribute('aria-expanded', "true");
+          			this.parentNode.querySelector('button').setAttribute('aria-expanded', "true");
+          		} else {
+          			this.parentNode.className = "has-submenu";
+          			this.parentNode.querySelector('a').setAttribute('aria-expanded', "false");
+          			this.parentNode.querySelector('button').setAttribute('aria-expanded', "false");
+          		}
+          		event.preventDefault();
+          	});
+          });
+          console.log(subMenuItems)
+        </script>
+      </nav>
+    </header>
+    <main>
+    </main>
+    <footer>
+      <img class="no-text-logo" src="https://s3.amazonaws.com/coa-cdn/logo-square-no-text.png">
+      <div>
+        <br>
+        The City of Asheville
+        <br>
+        70 Court Plaza
+        <br>
+        P.O. Box 7148
+        <br>
+        Asheville, NC 28002
+        <br>
+        <br>
+        828-251-1122
+        <br>
+      </div>
+    </footer>
+  </body>
+</html>

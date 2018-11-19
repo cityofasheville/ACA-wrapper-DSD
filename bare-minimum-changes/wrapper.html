@@ -17,6 +17,10 @@
 
     /* Mostly from https://medium.com/@heyoka/responsive-pure-css-off-canvas-hamburger-menu-aebc8d11d793 */
 
+    .font-awesome-thing {
+      font-family: sans-serif;
+    }
+
     header {
       height: 3em;
       text-align: center;
@@ -203,7 +207,6 @@
       }
 
       .logo img {
-        height: 5vh;
         min-height: 2em;
         padding: 0.1em 0.1em 0;
       }
@@ -255,9 +258,10 @@
 
   </style>
 </head>
+<meta content="width=device-width, initial-scale=1" name="viewport" />
 <body>
   <header>
-    <a href="#main-menu"
+    <span
        role="button"
        id="main-menu-toggle"
        class="menu-toggle"
@@ -265,31 +269,37 @@
        aria-controls="main-menu"
        aria-label="Open main menu">
       <span class="sr-only">Open main menu</span>
-      <span class="fa fa-bars" aria-hidden="true"></span>
-    </a>
+      <span class="font-awesome-thing fa fa-bars" aria-hidden="true"></span>
+    </span>
 
     <a class="logo" title="City of Asheville main page" href="https://www.ashevillenc.gov" target="_blank" rel="noopener">
       <img src="https://s3.amazonaws.com/coa-cdn/logo-primary.png">
     </a>
 
     <nav id="main-menu" role="navigation" class="main-menu" aria-expanded="false" aria-label="Main menu">
-      <a href="#main-menu-toggle"
+      <a href="#"
          role="button"
          id="main-menu-close"
          class="menu-close"
          aria-expanded="false"
          aria-controls="main-menu"
          aria-label="Close main menu">
-
         <span class="sr-only">Close main menu</span>
-        <span class="far fa-times-circle" aria-hidden="true"></span>
+        <span class="font-awesome-thing far fa-times-circle" aria-hidden="true"></span>
       </a>
       <ul>
         <li><a href="https://services.ashevillenc.gov/ACATest/Announcement/AnnouncementList.aspx">Announcements</a></li>
         <li><a href="https://services.ashevillenc.gov/ACATest/Login.aspx">Login</a></li>
         <li><a href="https://services.ashevillenc.gov/ACATest/Account/RegisterDisclaimer.aspx">Register</a></li>
-        <li><a target="_blank" rel="noreferrer noopener" href="https://www.ashevillenc.gov/departments/development/default.htm">Development Services Home</a></li>
-        <li><a target="_blank" rel="noreferrer noopener" href="https://www.ashevillenc.gov/departments/development/development_services_frequently_asked_questions.htm">FAQ</a></li>
+        <li class="accessible-dropdown-nav">
+          <a href="#">Reports<span class="font-awesome-thing fas fa-caret-down" aria-hidden="true"></span></a>
+          <ul class="accessible-dropdown-nav-list">
+            <li>Report 1</li>
+            <li>Report 2</li>
+            <li>Report 3</li>
+          <ul/>
+        </li>
+        <li><a target="_blank" rel="noreferrer noopener" href="https://www.ashevillenc.gov/departments/development/default.htm">Development Services</a></li>
       </ul>
     </nav>
     <a href="#main-menu-toggle"
@@ -307,7 +317,6 @@
   -->
 
   <div class='content'>
-    <iframe id="avl-aca-frame" src="https://services.ashevillenc.gov/ACAtest/Welcome.aspx"></iframe>
   </div>
 
   <footer>
