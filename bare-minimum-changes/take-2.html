@@ -16,15 +16,20 @@
         text-align: center;
         border-bottom: 0.1px solid #d9d9d9;
       }
+      ul li {
+        line-height: 2em;
+        padding: 0 1em;
+      }
+      ul li:hover {
+        background-color: #d9d9d9;
+      }
       #flyout-menu {
         position: absolute;
         top: 1em;
       }
       .menu-arrow {
         padding: 0 0.5em;
-      }
-      .has-submenu {
-        border: 1px solid red;
+        font-size: 0.75em;
       }
       .has-submenu.closed .menu-arrow.opened, .has-submenu.opened .menu-arrow.closed {
         display: none;
@@ -39,12 +44,28 @@
         height: 2em;
         padding: 0.1em 0.1em 0;
       }
+      #flyout-menu.closed ~ nav, .has-submenu.closed ul {
+        display: none;
+      }
       nav {
+        background-color: white;
+        border-right: 0.1px solid #d9d9d9;
+        border-bottom: 0.1px solid #d9d9d9;
         position: absolute;
         text-align: left;
+        left: 0vw;
       }
       nav ul {
         list-style: none;
+      }
+      .navitem-text {
+        text-decoration: none;
+        color: #00488b;
+        cursor: pointer;
+      }
+      .navitem-text.external:hover, .navitem-text.external:focus {
+        text-decoration: underline;
+        color: #0069cc;
       }
       main {
         height: 90vh;
@@ -58,65 +79,113 @@
       img.no-text-logo {
         height: 2em;
       }
+
+      @media (min-width: 768px) {
+        header {
+          text-align: right;
+        }
+        a.logo {
+          text-decoration: none;
+          position: absolute;
+          left: 1em;
+        }
+        #flyout-menu {
+          display: none;
+        }
+        #flyout-menu.closed ~ nav {
+          display: inline-block;
+        }
+        nav {
+          position: relative;
+          border: none;
+          background-color: transparent;
+        }
+        nav > ul > a, nav > ul > li {
+          display: inline-block;
+          padding: 0px 1em;
+        }
+        ul.accessible-dropdown-nav-list {
+          position: absolute;
+          background-color: white;
+        }
+        ul.accessible-dropdown-nav-list li {
+          border-bottom: 0.1px solid #d9d9d9;
+        }
+      }
     </style>
   </head>
   <body>
     <header>
-      <div id="flyout-menu" class="has-submenu closed">
-        <span class="submenu-opener-text">Menu</span>
-        <span class="menu-arrow closed">&rarr;</span><span class="menu-arrow opened">&larr;</span>
-      </div>
       <a class="logo" title="City of Asheville main page" href="https://www.ashevillenc.gov" target="_blank" rel="noopener">
         <img src="https://s3.amazonaws.com/coa-cdn/logo-primary.png">
       </a>
+      <div id="flyout-menu" class="has-submenu closed" tabindex="0">
+        <span class="navitem-text">Menu</span>
+        <span class="menu-arrow opened">&#9650;</span>
+        <span class="menu-arrow closed">&#9660;</span>
+      </div>
       <nav>
         <ul>
-          <li><a href="https://services.ashevillenc.gov/ACATest/Announcement/AnnouncementList.aspx">Announcements</a></li>
-          <li><a href="https://services.ashevillenc.gov/ACATest/Login.aspx">Login</a></li>
-          <li><a href="https://services.ashevillenc.gov/ACATest/Account/RegisterDisclaimer.aspx">Register</a></li>
-          <li class="has-submenu closed">
+          <a class="navitem-text" href="https://services.ashevillenc.gov/ACATest/Announcement/AnnouncementList.aspx"><li>Announcements</li></a>
+          <a class="navitem-text" href="https://services.ashevillenc.gov/ACATest/Login.aspx"><li>Login</li></a>
+          <a class="navitem-text" href="https://services.ashevillenc.gov/ACATest/Account/RegisterDisclaimer.aspx"><li>Register</li></a>
+          <li tabindex="0" class="has-submenu closed" >
             <div>
-              <span class="submenu-opener-text">Reports</span>
-              <span class="menu-arrow opened">&uarr;</span>
-              <span class="menu-arrow closed">&darr;</span>
+              <span class="navitem-text">Reports</span>
+              <span class="menu-arrow opened">&#9650;</span>
+              <span class="menu-arrow closed">&#9660;</span>
             </div>
             <ul class="accessible-dropdown-nav-list">
-              <li>Report 1</li>
-              <li>Report 2</li>
-              <li>Report 3</li>
+              <a href="#"><li class="navitem-text">Report 1</li></a>
+              <a href="#"><li class="navitem-text">Report 2</li></a>
+              <a href="#"><li class="navitem-text">Report 3</li></a>
             </ul>
           </li>
-          <li><a target="_blank" rel="noreferrer noopener" href="https://www.ashevillenc.gov/departments/development/default.htm">
-            Development Services<span class="menu-arrow">&#8663;</span>
-          </a></li>
+          <a class="navitem-text external" target="_blank" rel="noreferrer noopener" href="https://www.ashevillenc.gov/departments/development/default.htm">
+            <li>Development Services<span class="menu-arrow">&#8663;</span>
+          </li></a>
         </ul>
         <script type="text/javascript">
-          var subMenuItems = document.querySelectorAll('.has-submenu.closed')
-
-          Array.prototype.forEach.call(subMenuItems, function(el, i){
-          	var activatingEl = el.querySelector('.submenu-opener-text');
-            console.log(activatingEl)
-          	var btn = '<button><span><span class="visuallyhidden">show submenu for “' + activatingEl.textContent + '”</span></span></button>';
-          	activatingEl.insertAdjacentHTML('afterend', btn);
-
-          	el.querySelector('button').addEventListener("click",  function(event){
-          		if (this.parentNode.className == "has-submenu") {
-          			this.parentNode.className = "has-submenu open";
-          			this.parentNode.querySelector('a').setAttribute('aria-expanded', "true");
-          			this.parentNode.querySelector('button').setAttribute('aria-expanded', "true");
-          		} else {
-          			this.parentNode.className = "has-submenu";
-          			this.parentNode.querySelector('a').setAttribute('aria-expanded', "false");
-          			this.parentNode.querySelector('button').setAttribute('aria-expanded', "false");
-          		}
-          		event.preventDefault();
-          	});
+          var subMenuItems = document.querySelectorAll('.has-submenu')
+          function toggleSubmenu(event, definitelyClose = false) {
+            if (event.type === 'keydown' && (event.code !== 'Space' && event.code !== 'Enter')) {
+              return false;
+            }
+            if (this.className.includes('closed') && !definitelyClose) {
+              this.className = "has-submenu opened";
+              this.setAttribute('aria-expanded', "true");
+            } else {
+              this.className = "has-submenu closed";
+              this.setAttribute('aria-expanded', "false");
+            }
+            event.preventDefault();
+            event.stopPropagation()
+            return false;
+          }
+          function closeSubmenu(menuEl) {
+            menuEl.className = "has-submenu closed";
+            menuEl.setAttribute('aria-expanded', "false");
+          }
+          function closeIfNotSubmenuItem(event, menuEl) {
+            if (!event.path.join('').includes('submenu')) {
+              closeSubmenu(menuEl);
+            }
+          }
+          Array.prototype.forEach.call(subMenuItems, function(el){
+            document.addEventListener("click", function(event) { closeIfNotSubmenuItem(event, el); });
+          	el.addEventListener("click", toggleSubmenu);
+            el.addEventListener("keydown", toggleSubmenu);
+            var nextSib = el.nextSibling;
+            while (nextSib.nodeName === '#text') {
+              nextSib = nextSib.nextSibling;
+            }
+            nextSib.addEventListener("focus", function() { closeSubmenu(el); });
           });
-          console.log(subMenuItems)
         </script>
       </nav>
     </header>
     <main>
+      <a href="#"></a>
     </main>
     <footer>
       <img class="no-text-logo" src="https://s3.amazonaws.com/coa-cdn/logo-square-no-text.png">
