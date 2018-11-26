@@ -184,7 +184,6 @@
       }
       ul li {
         line-height: 2em;
-        padding: 0 1em;
       }
       ul li:hover {
         background-color: #d9d9d9;
@@ -202,7 +201,7 @@
         display: none;
       }
       .has-submenu.opened .menu-arrow.opened, .has-submenu.closed .menu-arrow.closed {
-        display: unset;
+        display: inline-block;
       }
       a.logo {
         text-decoration: none;
@@ -230,6 +229,16 @@
         text-decoration: none;
         color: #00488b;
         cursor: pointer;
+      }
+      nav ul li a {
+        padding: 1em;
+      }
+      nav ul li > div {
+        padding: 0 1em;
+        cursor: pointer;
+      }
+      nav ul li a:hover {
+        color: inherit;
       }
       .navitem-text.external:hover, .navitem-text.external:focus {
         text-decoration: underline;
@@ -275,7 +284,7 @@
         width: 100%;
       }
 
-      @media (min-width: 780px) {
+      @media (min-width: 965px) {
         main {
             width: 76vw;
             margin-left: 12vw;
@@ -300,11 +309,19 @@
         nav {
           position: relative;
           border: none;
+          /*margin-top: 1em;*/
+          height: 97%;
           /*background-color: transparent;*/
         }
-        nav > ul > a, nav > ul > li {
+        nav > ul, nav > ul > li {
+            height: 100%;
+            vertical-align: text-bottom;
+        }
+        nav ul li {
+            line-height: 2.5em;
+        }
+        nav > ul > li {
           display: inline-block;
-          padding: 0px 1em;
         }
         ul.accessible-dropdown-nav-list {
           position: absolute;
@@ -334,12 +351,12 @@
             Array.prototype.forEach.call(reports, function(report) {
                 var reportId = report.id.replace('report', '')
                 // https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=194&reportType=LINK_REPORT_LIST
-                $('#reportlist').append('<a target="_blank" rel="noopener noreferrer" href="https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=' + reportId + '&reportType=LINK_REPORT_LIST"><li class="navitem-text">' + report.textContent + '</li></a>')
+                $('#reportlist').append('<li class="navitem-text><a target="_blank" rel="noopener noreferrer" href="https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=' + reportId + '&reportType=LINK_REPORT_LIST">' + report.textContent + '</a></li>')
             })
 
             var welcomePage = $('.ACA_Content.welcome-page')
             var permPlanServ = $('table.ACA_Welcome_Block tbody td').has('div')
-            var permitsThing = permPlanServ.find('.Header_h2')[0]
+            var permitsThing = permPlanServ.find('.Header_h2 span')[0]
 
             if (permitsThing && permitsThing.innerText === 'Permits') {
                 $('div.ACA_LoginBox div.ACA_TabRow table').css('width', '100%')
@@ -388,9 +405,21 @@
       </div>
       <nav>
         <ul>
-          <a class="navitem-text" href="/ACATest/Announcement/AnnouncementList.aspx"><li>Announcements</li></a>
-          <a class="navitem-text" href="/ACATest/Login.aspx"><li>Login</li></a>
-          <a class="navitem-text" href="/ACATest/Account/RegisterDisclaimer.aspx"><li>Register</li></a>
+            <li>
+          <a class="navitem-text" href="/ACATest/Announcement/AnnouncementList.aspx">
+                Announcements
+        </a>
+            </li>
+            <li>
+          <a class="navitem-text" href="/ACATest/Login.aspx">
+                Login
+        </a>
+            </li>
+            <li>
+          <a class="navitem-text" href="/ACATest/Account/RegisterDisclaimer.aspx">
+                Register
+        </a>
+            </li>
           <li tabindex="0" class="has-submenu closed" >
             <div>
               <span class="navitem-text">Reports</span>
@@ -400,9 +429,11 @@
             <ul class="accessible-dropdown-nav-list" id="reportlist">
             </ul>
           </li>
+            <li>
           <a class="navitem-text external" target="_blank" rel="noreferrer noopener" href="https://www.ashevillenc.gov/departments/development/default.htm">
-            <li>Development Services<span class="menu-arrow">&#8663;</span>
-          </li></a>
+                Development Services<span class="menu-arrow">&#8663;</span>
+      </a>
+          </li>
         </ul>
         <script type="text/javascript">
           var subMenuItems = document.querySelectorAll('.has-submenu')
