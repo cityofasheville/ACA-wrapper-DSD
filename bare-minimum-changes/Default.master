@@ -251,6 +251,30 @@
         border: 1px solid gray;
       }
 
+      #gsContainer {
+        width: 100%;
+        padding: 1em 0 2em;
+        text-align: center;
+      }
+
+      .gs_container .gs_top_table td:nth-child(2) td.gs_border {
+        width: unset;
+      }
+
+      .gs_container .gs_top_table td:nth-child(2) input.gs_search_box.watermark {
+        width: unset;
+      }
+
+      .gs_container .gs_top_table #tdSearchHistory a#btnSearchHistory, .gs_container .gs_top_table a#btnSearch .gs_go_img {
+        position: relative;
+        margin-top: 0px;
+        right: 0;
+      }
+
+      .ACA_NavBanner {
+        width: 100%;
+      }
+
       @media (min-width: 780px) {
         main {
             width: 76vw;
