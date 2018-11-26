@@ -315,7 +315,9 @@
             //     .css('margin-left', '')
             //     .css('font-size', '1.25em')
 
-            // $('.ACA_NavBanner')
+            $('.ACA_NavBanner a')
+                .attr('tabindex', '0')
+                .css('word-break', 'break-word')
                 // .css('width', '100%')
 
             // $('.ACA_RegisterLogin')
@@ -372,7 +374,7 @@
                 $('div.ACA_LoginBox div.ACA_TabRow table').css('width', '100%')
                 var loginPermitTrs = welcomePage.children().first().find('tr').first().children()
                 var loginBox = loginPermitTrs.last().children().first().attr('class', '')
-                $('.ACA_LoginBox').css('margin', '0 auto').css('padding', '1em')
+                $('.ACA_LoginBox').css('margin', '0 auto').css('padding', '3.5em 0')
                     .css('background-color', 'none')
                     .width('100%')
 
@@ -389,7 +391,7 @@
                     var permPlanServDiv = $(document.createElement('div'))
                         .css('display', 'inline-block')
                         .css('width', '100%')
-                        .css('padding', '1em')
+                        .css('padding', '1.5em 0')
                         .css('background-color', '#e7f6fd')
                     permPlanServDiv.html(value.innerHTML)
                     mobileFriendlyDiv.append(permPlanServDiv)
