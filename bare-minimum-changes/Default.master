@@ -351,7 +351,7 @@
             Array.prototype.forEach.call(reports, function(report) {
                 var reportId = report.id.replace('report', '')
                 // https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=194&reportType=LINK_REPORT_LIST
-                $('#reportlist').append('<li class="navitem-text><a target="_blank" rel="noopener noreferrer" href="https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=' + reportId + '&reportType=LINK_REPORT_LIST">' + report.textContent + '</a></li>')
+                $('#reportlist').append('<li class="navitem-text"><a target="_blank" rel="noopener noreferrer" href="https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=' + reportId + '&reportType=LINK_REPORT_LIST">' + report.textContent + '</a></li>')
             })
 
             var welcomePage = $('.ACA_Content.welcome-page')
