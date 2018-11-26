@@ -1,0 +1,664 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Default.master.cs" Inherits="Accela.ACA.Web.DefaultMaster" %>
+
+<%@ Import Namespace="System" %>
+<%@ Import Namespace="System.IO" %>
+<%@ Import Namespace="System.Net" %>
+<%@ Import Namespace="System.Web.UI" %>
+<%@ Import Namespace="System.Security.Policy" %>
+<%@ Import Namespace="Accela.ACA.Web.Util" %>
+
+<%@ Register Src="Component/Navigation.ascx" TagName="Navigation" TagPrefix="nav" %>
+<%@ Register Src="Component/Analytics/Pendo.ascx" TagName="Pendo" TagPrefix="uc" %>
+<%@ Register Src="Component/Analytics/AppDynamics.ascx" TagName="AppDynamics" TagPrefix="uc" %>
+<%@ Register Src="Component/Branding/Header.ascx" TagName="Header" TagPrefix="branding" %>
+<%@ Register Src="Component/Branding/Footer.ascx" TagName="Footer" TagPrefix="branding" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html ng-app="appAca" xmlns="http://www.w3.org/1999/xhtml" lang="<%=Accela.ACA.Common.Util.I18nCultureUtil.UserPreferredCulture %>" xml:lang="<%=Accela.ACA.Common.Util.I18nCultureUtil.UserPreferredCulture %>" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head id="Head1" runat="server">
+    <title>
+        <%=LabelUtil.GetGlobalTextByKey("ACA_TopPage_Title")%>
+    </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css">
+        body, html {
+        overflow-y: visible!important;
+        }
+        .page-overlay-blocker {
+          position: fixed;
+          z-index: 999;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          background-color: #ffffff;
+          opacity: 0.1;
+          display:none;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="~/css/main.css" />
+    <link rel="shortcut icon" type="image/png" href="https://s3.amazonaws.com/coa-cdn/logo-square-no-text.png"/>
+    <uc:AppDynamics runat="server" ID="AppDynamicsControl"></uc:AppDynamics>
+        <style media="screen">
+      html, body {
+        font-family: sans-serif;
+        color: #00488b;
+        font-size: 16px;
+      }
+      header {
+        height: 3em;
+        text-align: center;
+        border-bottom: 0.1px solid #d9d9d9;
+        z-index: 999;
+      }
+      ul li {
+        line-height: 2em;
+      }
+      ul li:hover {
+        background-color: #d9d9d9;
+      }
+      #flyout-menu {
+        position: absolute;
+        left: 1em;
+        top: 1em;
+      }
+      .menu-arrow {
+        padding: 0 0.5em;
+        font-size: 0.75em;
+      }
+      .has-submenu.closed .menu-arrow.opened, .has-submenu.opened .menu-arrow.closed {
+        display: none;
+      }
+      .has-submenu.opened .menu-arrow.opened, .has-submenu.closed .menu-arrow.closed {
+        display: inline-block;
+      }
+      a.logo {
+        text-decoration: none;
+        color: transparent;
+      }
+      .logo img {
+        height: 2em;
+        padding: 0.1em 0.1em 0;
+      }
+      #flyout-menu.closed ~ nav, .has-submenu.closed ul {
+        display: none;
+      }
+      nav {
+        background-color: white;
+        border-right: 0.1px solid #d9d9d9;
+        border-bottom: 0.1px solid #d9d9d9;
+        position: absolute;
+        text-align: left;
+        left: 0vw;
+        z-index: 999;
+      }
+      nav ul {
+        list-style: none;
+      }
+      .navitem-text {
+        text-decoration: none;
+        color: #00488b;
+        cursor: pointer;
+      }
+      nav ul li a {
+        padding: 1em;
+      }
+      nav ul li > div {
+        padding: 0 1em;
+        cursor: pointer;
+      }
+      nav ul li a:hover {
+        color: inherit;
+      }
+      .navitem-text.external:hover, .navitem-text.external:focus {
+        text-decoration: underline;
+        color: #0069cc;
+      }
+      footer {
+        text-align: center;
+        font-size: 0.75em;
+        border-top: 0.1px solid #d9d9d9;
+        padding: 1em 0;
+      }
+      img.no-text-logo {
+        height: 2em;
+      }
+      .accessible-dropdown-nav-list, #flyout-menu ~ nav ul {
+        z-index: 999;
+      }
+      #flyout-menu ~ nav > ul{
+        border: 1px solid gray;
+      }
+
+      #gsContainer {
+        width: 100%;
+        padding: 1em 0 2em;
+        text-align: center;
+      }
+
+      .gs_container .gs_top_table td:nth-child(2) td.gs_border {
+        width: unset;
+      }
+
+      .gs_container .gs_top_table td:nth-child(2) input.gs_search_box.watermark {
+        width: unset;
+      }
+
+      .gs_container .gs_top_table #tdSearchHistory a#btnSearchHistory, .gs_container .gs_top_table a#btnSearch .gs_go_img {
+        position: relative;
+        margin-top: 0px;
+        right: 0;
+      }
+
+      .ACA_NavBanner {
+        width: 100%;
+      }
+
+      @media (min-width: 965px) {
+        div#main {
+            width: 70vw;
+            margin-left: 15vw;
+        }
+        header {
+          text-align: right;
+        }
+        a.logo {
+          text-decoration: none;
+          position: absolute;
+          left: 1em;
+        }
+        #flyout-menu ~ nav > ul {
+          border: none;
+        }
+        #flyout-menu {
+          display: none;
+        }
+        #flyout-menu.closed ~ nav {
+          display: inline-block;
+        }
+        nav {
+          position: relative;
+          border: none;
+          /*margin-top: 1em;*/
+          height: 97%;
+          /*background-color: transparent;*/
+        }
+        nav > ul, nav > ul > li {
+            height: 100%;
+            vertical-align: text-bottom;
+        }
+        nav ul li {
+            line-height: 2.5em;
+        }
+        nav > ul > li {
+          display: inline-block;
+        }
+        ul.accessible-dropdown-nav-list {
+          position: absolute;
+          background-color: white;
+          border: 1px solid gray;
+        }
+        ul.accessible-dropdown-nav-list li {
+          border-bottom: 0.1px solid #d9d9d9;
+        }
+      }
+    </style>
+</head>
+    
+<script type="text/javascript">
+    var firstErrorMsgId;
+
+    function isSafari(){
+        var ua = window.navigator.userAgent;
+        return ua.indexOf("Safari")>-1;
+    }
+
+    var original=0;
+    function iframeAutoFit()
+    {
+        try
+        {
+            if(window!=parent)
+            {
+                var ifrm = getParentDocument().getElementById("ACAFrame");
+                if(ifrm != null && ifrm.contentWindow==window)
+                {
+                    var h1 = 0, h2 = 0;
+
+                    if(document.documentElement&&document.documentElement.scrollHeight)
+                    {
+                        h1=ifrm.contentWindow.document.documentElement.scrollHeight;
+                    }
+                    if (isSafari()) {
+                        h1=ifrm.contentWindow.document.body.scrollHeight;
+                    }
+                
+                    var h=$(ifrm.contentWindow.document.body).innerHeight();
+                
+                    var temp = h1-60 - h;
+                    var chk = true;
+                    if (temp> 0 && temp<200) {
+                        chk = false;
+                    }
+
+                    var popupHeight = 0;
+                    var popupDialog = $("#dvACADialogLayer");
+                    if ($.exists(popupDialog)) {
+                        popupHeight = popupDialog[0].clientHeight;
+                        if (h < popupHeight) {
+                            h = popupHeight;
+                        }
+                    }
+
+                    if(original != h || !chk){ 
+                        if(isFireFox() == false)
+                        {
+                            if (chk) {
+                                h1 = parseInt(h)+60;
+                            }
+                        
+                            ifrm.style.height = ifrm.parentNode.style.height = h1 +"px";
+                        }
+                        else
+                        {
+                            if (chk) {
+                                if ($.exists(popupDialog)) {
+                                    h1 = parseInt(h) + 60;
+                                } else {
+                                    h1 = ifrm.contentDocument.body.scrollHeight;
+                                    h1 = parseInt(h1) + 60;
+                                }
+                            }
+                            
+                            ifrm.height = h1;
+                        }
+
+                        original = h;
+                    } 
+                }
+            }
+        }
+        catch (ex){}
+    }
+
+</script>
+
+<body>
+    <div id="iframeBlocker" class="page-overlay-blocker"></div>
+
+    <script type="text/javascript" src="<%=FileUtil.AppendApplicationRoot("Scripts/GlobalConst.aspx")%>"></script>        
+    <%: System.Web.Optimization.Scripts.Render("~/bundles/common") %>
+    <%: System.Web.Optimization.Scripts.Render("~/bundles/accela-common") %>
+
+    <!-- Angular files -->
+    <script type="text/javascript" src="<%=FileUtil.AppendApplicationRoot("Scripts/angular.min.js")%>"></script>
+    <%: System.Web.Optimization.Scripts.Render("~/bundles/aca-gis") %>
+    
+    <script type="text/javascript" src="<%=FileUtil.AppendApplicationRoot("Scripts/SessionTimeout.js")%>"></script>
+
+    <script type="text/javascript">
+        $.global.isRTL = IsTrue('<%=Accela.ACA.Common.Util.I18nCultureUtil.UserPreferredCultureInfo.TextInfo.IsRightToLeft %>');
+
+        //fix the issue that the confirm/alert box should also follows the current culture.
+        if ($.global.isRTL) {
+            document.dir = "rtl";
+        } else {
+            document.dir = "";
+        }
+
+        $.global.isAdmin = IsTrue('<%= AppSession.IsAdmin %>');
+        var isClassTemplate = IsTrue('<%= !StandardChoiceUtil.IsEnableNewTemplate() %>');
+        var isWelcomePage = IsTrue('<%= Request.Url.AbsolutePath.Equals(Page.ResolveUrl("~/Welcome.aspx"), StringComparison.InvariantCultureIgnoreCase) %>');
+        var isLoginPage = IsTrue('<%= Request.Url.AbsolutePath.Equals(Page.ResolveUrl("~/Login.aspx"), StringComparison.InvariantCultureIgnoreCase) %>');
+        var isAnonymous = IsTrue('<%= AppSession.User == null || AppSession.User.IsAnonymous %>');
+        if (!((isWelcomePage || isLoginPage) && isAnonymous) && !$.global.isAdmin) {
+            var opts = {
+                TimeoutTime: <%= SessionTimeoutUtil.GetTimeoutTime() %>,
+                WarningTime: <%= SessionTimeoutUtil.GetWarningTime() %>,
+                WarnTitle: '<%=LabelUtil.GetTextByKey("aca_sessiontimeout_label_title",string.Empty).Replace("'","\\'") %>',
+                ExpiredTitle: '<%=LabelUtil.GetTextByKey("aca_sessiontimeout_label_expiredtitle",string.Empty).Replace("'","\\'") %>',
+                MsgWarn: '<%=LabelUtil.GetTextByKey("aca_sessiontimeout_msg_content",string.Empty).Replace("'","\\'") %>',
+                MsgExpired: '<%=LabelUtil.GetTextByKey("aca_sessiontimeout_label_expiredcontent",string.Empty).Replace("'","\\'") %>',
+                MsgHelp: '<%=LabelUtil.GetTextByKey("aca_sessiontimeout_msg_help",string.Empty).Replace("'","\\'") %>',
+                BtnOK: '<%=LabelUtil.GetTextByKey("aca_sessiontimeout_label_ok",string.Empty).Replace("'","\\'") %>',
+                BtnCancel: '<%=LabelUtil.GetTextByKey("aca_sessiontimeout_label_cancel",string.Empty).Replace("'","\\'") %>',
+                BtnLogin: '<%=LabelUtil.GetTextByKey("aca_sessiontimeout_label_login",string.Empty).Replace("'","\\'") %>',
+                UrlWelcome: '<%=FileUtil.AppendApplicationRoot("/Welcome.aspx") %>',
+                UrlLogin: '<%=AuthenticationUtil.LoginUrl %>',
+                UrlLogic: '<%=FileUtil.AppendApplicationRoot("/Handlers/SessionTimeOutHandler.ashx") %>',
+                UrlCloseImg: '<%=ImageUtil.GetImageURL("closepopup.png") %>',
+                ApplicationRoot: '<%= FileUtil.GetApplicationRoot() %>'
+            };
+
+            if (isClassTemplate) {
+                $("body").SessionTimeoutTimer(opts);
+            }
+        }
+    </script>
+
+    <uc:Pendo runat="server" ID="PendoControl" />
+    
+    <ACA:AccelaHideLink ID="hlSkipNavigation" runat="server" AltKey="img_alt_externalmenu_skiplink" OnClientClick="skipToBeginningOfACA();" TabIndex="-1" />
+    <ACA:AccelaHideLink ID="hlSkipToolBar" runat="server" AltKey="img_alt_modulemenu_skiplink" OnClientClick="skipToMainContent();" IsSkippingToAnchor="true" NextControlClientID="FirstAnchorInACAMainContent" />
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <script type="text/javascript">
+        $(function () {
+            $('body').css('cssText', 'font-size: 100% !important;')
+            $('font').attr('size', '')
+            $('span').css('line-height', 'unset')
+                .css('font-size', 'unset')
+
+            $('.ACA_NavBanner a')
+                .attr('tabindex', '0')
+                .css('word-break', 'break-word')
+
+            // Ditch the crappy nav bar
+            $('.ACA_RegisterLogin table')
+                .css('display', 'none')
+
+            var reports = $('#reportList span a')
+            Array.prototype.forEach.call(reports, function(report) {
+                var reportId = report.id.replace('report', '')
+                // https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=194&reportType=LINK_REPORT_LIST
+                $('#reportlist').append('<li class="navitem-text"><a target="_blank" rel="noopener noreferrer" href="https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=' + reportId + '&reportType=LINK_REPORT_LIST">' + report.textContent + '</a></li>')
+            })
+
+            $('.ACA_Content, div.aca_wrapper > div, .nav_bar_container, .ACA_NaviTitle')
+                .css('width', '100%')
+                .css('margin-left', '0')
+
+            $('.ACA_LoginBox > *')
+                .css('width', '80%')
+                .css('margin-left', '10%')
+
+            $('#ctl00_PlaceHolderMain_chkCrossModuleSearch').attr('checked', 'true');
+
+            var welcomePage = $('.ACA_Content.welcome-page')
+            var permPlanServ = $('table.ACA_Welcome_Block tbody td').has('div')
+            var permitsThing = permPlanServ.find('.Header_h2 span')[0]
+
+            if (permitsThing && permitsThing.innerText === 'Permits') {
+                $('div.ACA_LoginBox div.ACA_TabRow table').css('width', '100%')
+                var loginPermitTrs = welcomePage.children().first().find('tr').first().children()
+                var loginBox = loginPermitTrs.last().children().first().attr('class', '')
+                $('.ACA_LoginBox').css('margin', '0 auto').css('padding', '3.5em 0')
+                    .css('background-color', 'none')
+                    .width('100%')
+
+                var mobileFriendlyDiv = $(document.createElement('div'))
+                    .attr('id', 'avl-mobile-friendly')
+                    .css('text-align', 'center')
+                    .css('font-size', '1.5rem')
+
+                mobileFriendlyDiv.append(loginBox)
+
+
+                $.each(permPlanServ, function(index, value) {
+                    mobileFriendlyDiv.append('<br>')
+                    var permPlanServDiv = $(document.createElement('div'))
+                        .css('display', 'inline-block')
+                        .css('width', '100%')
+                        .css('padding', '1.5em 0')
+                        .css('background-color', '#e7f6fd')
+                    permPlanServDiv.html(value.innerHTML)
+                    mobileFriendlyDiv.append(permPlanServDiv)
+                })
+
+                welcomePage.html('').append(mobileFriendlyDiv)
+            }
+        });
+    </script>
+    <header>
+      <a class="logo" title="City of Asheville main page" href="https://www.ashevillenc.gov" target="_blank" rel="noopener">
+        <img src="https://s3.amazonaws.com/coa-cdn/logo-primary.png">
+      </a>
+      <div id="flyout-menu" class="has-submenu closed" tabindex="0">
+        <span class="navitem-text">Menu</span>
+        <span class="menu-arrow opened">&#9650;</span>
+        <span class="menu-arrow closed">&#9660;</span>
+      </div>
+      <nav>
+        <ul>
+            <li>
+          <a class="navitem-text" href="/ACATest/Announcement/AnnouncementList.aspx">
+                Announcements
+        </a>
+            </li>
+            <li>
+          <a class="navitem-text" href="/ACATest/Login.aspx">
+                Login
+        </a>
+            </li>
+            <li>
+          <a class="navitem-text" href="/ACATest/Account/RegisterDisclaimer.aspx">
+                Register
+        </a>
+            </li>
+          <li tabindex="0" class="has-submenu closed" >
+            <div>
+              <span class="navitem-text">Reports</span>
+              <span class="menu-arrow opened">&#9650;</span>
+              <span class="menu-arrow closed">&#9660;</span>
+            </div>
+            <ul class="accessible-dropdown-nav-list" id="reportlist">
+            </ul>
+          </li>
+            <li>
+          <a class="navitem-text external" target="_blank" rel="noreferrer noopener" href="https://www.ashevillenc.gov/departments/development/default.htm">
+                Development Services<span class="menu-arrow">&#8663;</span>
+      </a>
+          </li>
+        </ul>
+        <script type="text/javascript">
+          function getEventPath(event) {
+            if (event.path) {
+              return event.path
+            }
+
+            var path = []
+            var target = event.target
+
+            while (target.parentNode) {
+              path.push(target)
+              target = target.parentNode
+            }
+
+            path.push(document, window)
+
+            return path
+          }
+
+          var subMenuItems = document.querySelectorAll('.has-submenu')
+          function toggleSubmenu(event, definitelyClose) {
+            if (event.type === 'keydown' && (event.code !== 'Space' && event.code !== 'Enter')) {
+              return false;
+            }
+            if (this.className.indexOf('closed') > -1 && !definitelyClose) {
+              this.className = "has-submenu opened";
+              this.setAttribute('aria-expanded', "true");
+            } else {
+              this.className = "has-submenu closed";
+              this.setAttribute('aria-expanded', "false");
+            }
+            event.stopPropagation();
+            return false;
+          }
+          function closeSubmenu(menuEl) {
+            menuEl.className = "has-submenu closed";
+            menuEl.setAttribute('aria-expanded', "false");
+          }
+          function closeIfNotSubmenuItem(event, menuEl) {
+            var eventPath = getEventPath(event)
+            if (!eventPath.join('').indexOf('submenu') > -1) {
+              closeSubmenu(menuEl);
+            }
+          }
+          Array.prototype.forEach.call(subMenuItems, function(el){
+            document.addEventListener("click", function(event) { closeIfNotSubmenuItem(event, el); });
+            el.addEventListener("click", toggleSubmenu);
+            el.addEventListener("keydown", toggleSubmenu);
+            var nextSib = el.nextSibling;
+            while (nextSib.nodeName === '#text') {
+              nextSib = nextSib.nextSibling;
+            }
+            nextSib.addEventListener("focus", function() { closeSubmenu(el); });
+          });
+        </script>
+      </nav>
+    </header>
+
+
+    <div id="main">
+    <form id="form1" runat="server">
+        <% if (BrandingSettings.IsEnabled) { %>
+        <branding:Header runat="server" ID="brandingHeader" />
+        <% } %>
+
+        <asp:ScriptManager ID="ScriptManager1" EnableScriptGlobalization="true" EnableScriptLocalization="true"
+            runat="server" EnablePageMethods="true" ScriptMode="Release" />
+        <div class="aca_wrapper">
+            <div style="width: 80em; margin: 0 auto;">
+                
+                <nav:Navigation ID="HeaderNavigation" runat="server" />
+                <a id="goTOMessage" href="#messageSpan" tabindex="-1"></a>
+                <div class="ACA_Content ACA_Hide">
+                    <!-- The h1 element is only for WCAG2.0 rule 1.1.1 H42 -->
+                    <h1 class="ACA_Hide">Message Bar</h1>
+                    <span id="messageSpan" name="messageSpan"></span>
+                </div>
+                <script type="text/javascript" language="javascript">
+                    //Init validation error panel for form validation.
+                    if (typeof (InitValidationErrorPanel) == "function") {
+                        $(document).ready(InitValidationErrorPanel);
+                    }
+                </script>
+                <div>
+                    <a name="FirstAnchorInACAMainContent" id="FirstAnchorInACAMainContent" tabindex="-1"></a>
+                    <span id="ErrorList1"></span>
+                    <asp:ContentPlaceHolder ID="PlaceHolderMain" runat="server">
+                    </asp:ContentPlaceHolder>
+                    <!--
+                In Chorme and Opera 15, need add the div,
+                because when content div set float property, not hodler height in container
+                -->
+                    <div style="clear: both;"></div>
+                </div>
+                <div id="divLoadingTemplate" class="ACA_Loading_Message" style="width: auto">
+                    <img alt="<%=LabelUtil.GetTextByKey("aca_global_msg_loading",string.Empty) %>" src="<%=Accela.ACA.Web.Common.ImageUtil.GetImageURL("loading.gif") %>" />
+                    <ACA:AccelaLabel ID="lblLoading" CssClass="ACA_SmLabel ACA_SmLabel_FontSize" runat="server" LabelKey="capdetail_message_loading"></ACA:AccelaLabel>
+                </div>
+                <ACA:AccelaHideLink ID="hlContentEnd" runat="server" TabIndex="0" />
+            </div>
+        </div>
+        <asp:UpdatePanel ID="UpdatePanel4Expression" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>
+                <input type="hidden" id="HDExpressionParam" class="HDExpressionResultCss" runat="server" />
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <script type="text/javascript">
+            setInterval("iframeAutoFit()", 300);
+
+            if (typeof (divAccessibility) != 'undefined')
+            {
+                if (document.getElementById(divAccessibility)!=null && $("#" + divAccessibility).get(0))
+                {
+                    $("#" + divAccessibility).hide();
+                }
+            }
+
+            with (Sys.WebForms.PageRequestManager.getInstance()) {
+                add_beginRequest(onBeginRequest);
+                add_endRequest(onEndRequest);
+                add_pageLoaded(onPageLoaded);
+            }
+            
+            function onBeginRequest(sender, args) {
+                if ($.global.isAdmin) {
+                    //1. in admin, if async request, we need record the client id of last selected object.
+                    var obj = document.currentSelectedObj;
+
+                    if (obj && obj._element) {
+                        parent.document.currentSelectedID = obj._element.id;
+                    }
+
+                    $('*').css('cursor', 'wait');
+                }
+            }
+
+            var processLoading = new ProcessLoading();
+            function onPageLoaded(sender, args) {
+                if ($.global.isAdmin) {
+                    //2. in admin, if async request, use last selected object id to get the object and trigger it select.
+                    var selectedId = parent.document.currentSelectedID;
+
+                    if (selectedId) {
+                        invokeClick($get(selectedId));
+
+                        //3. when it select completed, clear this.
+                        parent.document.currentSelectedID = null;
+                    }
+
+                    $('*').css('cursor', '');
+                } else {
+                    firstErrorMsgId = '';
+                    processLoading.initControlLoading();
+
+                    addPrintErrors2SubmitButton();
+                }
+            }
+
+            function onEndRequest(sender, arg) {
+                if (!$.global.isAdmin) {
+                    var sourceElement = sender._postBackSettings.sourceElement;
+
+                    if (sourceElement == null || (sourceElement != null && $(sourceElement).hasClass('NotShowLoading') == false)) {
+                        processLoading.hideLoading();
+                    }
+
+                    if (delayShowLoadingTimer) {
+                        window.clearTimeout(delayShowLoadingTimer);
+                    }
+                }
+            }
+
+            function ShowLoading() {
+                var processLoading = new ProcessLoading();
+                processLoading.showLoading();
+            }
+
+            function HideLoading(needHide) {
+                var processLoading = new ProcessLoading();
+                processLoading.hideLoading(needHide);
+            }
+            
+        </script>
+
+        <% if (BrandingSettings.IsEnabled) { %>
+        <branding:Footer runat="server" ID="brandingFooter" />
+        <% } %>
+
+        <input type="submit" name="Submit" value="Submit" class="HiddenButton" onclick="return false;" />
+    </form>
+    <noscript><%=LabelUtil.GetGlobalTextByKey("aca_message_noscript")%></noscript>
+    </div>
+    <footer>
+        <img class="no-text-logo" src="https://s3.amazonaws.com/coa-cdn/logo-square-no-text.png">
+        <div>
+            <br>
+            The City of Asheville
+            <br>
+            70 Court Plaza
+            <br>
+            P.O. Box 7148
+            <br>
+            Asheville, NC 28002
+            <br>
+            <br>
+            828-251-1122
+            <br>
+        </div>
+    </footer>
+</body>
+</html>
