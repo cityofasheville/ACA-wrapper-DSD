@@ -365,7 +365,7 @@
                 $('#reportlist').append('<li class="navitem-text"><a target="_blank" rel="noopener noreferrer" href="https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=' + reportId + '&reportType=LINK_REPORT_LIST">' + report.textContent + '</a></li>')
             })
 
-            $('.ACA_Content, div.aca_wrapper > div, .nav_bar_container, .ACA_NaviTitle')
+            $('.ACA_Content, div.aca_wrapper > div, .nav_bar_container, .ACA_NaviTitle, #divNaviMenu > *')
                 .css('width', '100%')
                 .css('margin-left', '0')
 
@@ -422,17 +422,17 @@
       <nav>
         <ul>
             <li>
-          <a class="navitem-text" href="/ACATest/Announcement/AnnouncementList.aspx">
+          <a class="navitem-text" href="/Citizenaccess/Announcement/AnnouncementList.aspx">
                 Announcements
         </a>
             </li>
             <li>
-          <a class="navitem-text" href="/ACATest/Login.aspx">
+          <a class="navitem-text" href="/Citizenaccess/Login.aspx">
                 Login
         </a>
             </li>
             <li>
-          <a class="navitem-text" href="/ACATest/Account/RegisterDisclaimer.aspx">
+          <a class="navitem-text" href="/Citizenaccess/Account/RegisterDisclaimer.aspx">
                 Register
         </a>
             </li>
