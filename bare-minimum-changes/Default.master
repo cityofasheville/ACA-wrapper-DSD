@@ -297,33 +297,10 @@
             $('font').attr('size', '')
             $('span').css('line-height', 'unset')
                 .css('font-size', 'unset')
-                
-            // $('theForm')
-            //     .css('height', '100vh')
-            //     .css('letter-spacing', '0.12em')
-            //     .css('padding', '0vh 10vw')
-
-            // $('.aca_wrapper')
-            //     .css('padding-left', '0px')
-            //     .css('padding', '2% 10vw')
-
-            // $('.aca_wrapper div').first()
-            //     .css('width', '100%')
-
-            // var navbar = $('.ACA_NaviTitle')
-            //     // .css('width', '100%')
-            //     .css('margin-left', '')
-            //     .css('font-size', '1.25em')
 
             $('.ACA_NavBanner a')
                 .attr('tabindex', '0')
                 .css('word-break', 'break-word')
-                // .css('width', '100%')
-
-            // $('.ACA_RegisterLogin')
-            //     .css('float', 'none')
-            //     .css('text-align', 'right')
-                // .css('padding', '0 0 2% 0')
 
             // Ditch the crappy nav bar
             $('.ACA_RegisterLogin table')
@@ -335,36 +312,6 @@
                 // https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=194&reportType=LINK_REPORT_LIST
                 $('#reportlist').append('<a target="_blank" rel="noopener noreferrer" href="https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=' + reportId + '&reportType=LINK_REPORT_LIST"><li class="navitem-text">' + report.textContent + '</li></a>')
             })
-
-        //     $('.ACA_Content')
-        //         .css('width', '100%')
-        //         .css('margin-left', '')
-        //         .css('box-shadow', 'unset')
-        //         .css('border', 'unset')
-        //         .css('-webkit-box-shadow', 'unset')
-
-        //     $('.container_40')
-        //         .css('width', '100%')
-        //         .css('padding', '1%')
-
-        //     $('#divSearchPaneltoPressEnter, #nav_parent_container, #nav_link_place_holder')
-        //         .css('font-size', '1.5rem')
-
-        //     var searchContainer = $('#gsContainer')
-        //     $('.gs_container')
-        //         .css('width', 'unset')
-        //         .css('float', 'unset')
-        //         .css('text-align', 'right')
-        //         .css('padding-top', '1rem')
-
-        //     $('table.gs_top_table').css('display', 'none')
-        //     var searchBox = $('input.gs_search_box')
-        //         .css('border', '1px solid gray')
-        //     var searchButton = $('a#btnSearch')
-        //     var searchHistory = $('a#btnSearchHistory').css('display', 'none')
-        //     searchContainer.append(searchBox).append(searchButton)
-
-        //     $('.ACA_RegisterLogin').append(searchContainer)
 
             var welcomePage = $('.ACA_Content.welcome-page')
             var permPlanServ = $('table.ACA_Welcome_Block tbody td').has('div')
