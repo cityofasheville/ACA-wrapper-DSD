@@ -205,6 +205,7 @@
       }
       a.logo {
         text-decoration: none;
+        color: transparent;
       }
       .logo img {
         height: 2em;
@@ -285,7 +286,7 @@
       }
 
       @media (min-width: 965px) {
-        main {
+        div#main {
             width: 76vw;
             margin-left: 12vw;
         }
@@ -436,12 +437,30 @@
           </li>
         </ul>
         <script type="text/javascript">
+          function getEventPath(event) {
+            if (event.path) {
+              return event.path
+            }
+
+            var path = []
+            var target = event.target
+
+            while (target.parentNode) {
+              path.push(target)
+              target = target.parentNode
+            }
+
+            path.push(document, window)
+
+            return path
+          }
+
           var subMenuItems = document.querySelectorAll('.has-submenu')
-          function toggleSubmenu(event, definitelyClose = false) {
+          function toggleSubmenu(event, definitelyClose) {
             if (event.type === 'keydown' && (event.code !== 'Space' && event.code !== 'Enter')) {
               return false;
             }
-            if (this.className.includes('closed') && !definitelyClose) {
+            if (this.className.indexOf('closed') > -1 && !definitelyClose) {
               this.className = "has-submenu opened";
               this.setAttribute('aria-expanded', "true");
             } else {
@@ -456,7 +475,8 @@
             menuEl.setAttribute('aria-expanded', "false");
           }
           function closeIfNotSubmenuItem(event, menuEl) {
-            if (!event.path.join('').includes('submenu')) {
+            var eventPath = getEventPath(event)
+            if (!eventPath.join('').indexOf('submenu') > -1) {
               closeSubmenu(menuEl);
             }
           }
@@ -474,7 +494,7 @@
       </nav>
     </header>
     
-    <main>
+    <div id="main">
         <form id="form1" runat="server">
             <asp:ScriptManager ID="ScriptManager1" EnableScriptGlobalization="true" EnableScriptLocalization="true"
                 runat="server" EnablePageMethods="true" ScriptMode="Release" />
@@ -610,7 +630,7 @@
             </script>
             <input type="submit" name="Submit" value="Submit" class="HiddenButton" onclick="return false;" />
         </form>
-    </main>
+    </div>
 
     <noscript><%=LabelUtil.GetGlobalTextByKey("aca_message_noscript")%></noscript>
       <footer>
