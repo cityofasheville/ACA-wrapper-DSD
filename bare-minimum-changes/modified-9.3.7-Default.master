@@ -69,6 +69,11 @@
         font-size: 0.5em;
         vertical-align: middle;
       }
+      .external-link-arrow {
+        font-size: 0.75em;
+        padding: 0 0 0 0.5em;
+        color: inherit;
+      }
       .has-submenu.closed .menu-arrow.opened, .has-submenu.opened .menu-arrow.closed {
         display: none;
       }
@@ -452,7 +457,7 @@
           </li>
             <li>
           <a class="navitem-text external" target="_blank" rel="noreferrer noopener" href="https://www.ashevillenc.gov/departments/development/default.htm">
-                Development Services<span class="menu-arrow">&#8663;</span>
+                Development Services<span class="external-link-arrow">&#8663;</span>
       </a>
           </li>
         </ul>
