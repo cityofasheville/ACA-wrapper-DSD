@@ -41,7 +41,8 @@
     <link rel="stylesheet" type="text/css" href="~/css/main.css" />
     <link rel="shortcut icon" type="image/png" href="https://s3.amazonaws.com/coa-cdn/logo-square-no-text.png"/>
     <uc:AppDynamics runat="server" ID="AppDynamicsControl"></uc:AppDynamics>
-        <style media="screen">
+    <!-- STYLE BELOW FOR AVL MENU -->
+    <style media="screen">
       html, body {
         font-family: sans-serif;
         color: #00488b;
@@ -61,12 +62,12 @@
       }
       #flyout-menu {
         position: absolute;
-        left: 1em;
+        left: 0.5em;
         top: 1em;
       }
       .menu-arrow {
-        padding: 0 0.5em;
-        font-size: 0.75em;
+        font-size: 0.5em;
+        vertical-align: middle;
       }
       .has-submenu.closed .menu-arrow.opened, .has-submenu.opened .menu-arrow.closed {
         display: none;
@@ -158,8 +159,8 @@
 
       @media (min-width: 965px) {
         div#main {
-            width: 70vw;
-            margin-left: 15vw;
+            width: 80vw;
+            margin-left: 10vw;
         }
         header {
           text-align: right;
@@ -343,12 +344,13 @@
     <ACA:AccelaHideLink ID="hlSkipNavigation" runat="server" AltKey="img_alt_externalmenu_skiplink" OnClientClick="skipToBeginningOfACA();" TabIndex="-1" />
     <ACA:AccelaHideLink ID="hlSkipToolBar" runat="server" AltKey="img_alt_modulemenu_skiplink" OnClientClick="skipToMainContent();" IsSkippingToAnchor="true" NextControlClientID="FirstAnchorInACAMainContent" />
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <!-- JQUERY BELOW ADDED BY AVL FOR MOBILE FRIENDLINESS -->
     <script type="text/javascript">
         $(function () {
             $('body').css('cssText', 'font-size: 100% !important;')
             $('font').attr('size', '')
             $('span').css('line-height', 'unset')
-                .css('font-size', 'unset')
+                // .css('font-size', 'unset')
 
             $('.ACA_NavBanner a')
                 .attr('tabindex', '0')
@@ -365,13 +367,16 @@
                 $('#reportlist').append('<li class="navitem-text"><a target="_blank" rel="noopener noreferrer" href="https://services.ashevillenc.gov/Citizenaccess/Report/ReportParameter.aspx?module=&reportID=' + reportId + '&reportType=LINK_REPORT_LIST">' + report.textContent + '</a></li>')
             })
 
-            $('.ACA_Content, div.aca_wrapper > div, .nav_bar_container, .ACA_NaviTitle, #divNaviMenu > *')
+            $('.ACA_Content, div.aca_wrapper > div, .nav_bar_container, .ACA_NaviTitle, #divNaviMenu > *, #MainContent, .container_40')
                 .css('width', '100%')
                 .css('margin-left', '0')
 
             $('.ACA_LoginBox > *')
                 .css('width', '80%')
                 .css('margin-left', '10%')
+
+            $('.container_40 > *')
+                .css('display', 'inline-block')
 
             $('#ctl00_PlaceHolderMain_chkCrossModuleSearch').attr('checked', 'true');
 
