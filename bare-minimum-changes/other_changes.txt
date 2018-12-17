@@ -1,0 +1,2 @@
+File,Change
+AMCA/Loginm.aspx, Line 12 from placeholder="Username" to <input type="text" class="form-control txtlogin" id="userName" placeholder="Email Address" runat="server" />
