@@ -48,7 +48,7 @@
         <!--Contact Info-->
         <div class="panel panel-default" id="inspection-contact">
             <div class="panel-body">
-                <label>Contact Information <span class="hint-text">Required</span></label>
+                <label>Contact Information <span class="hint-text" style="color: red; padding-left: 1em;">Required</span></label>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="First Name" ng-model="contact.firstName" />
                 </div>
@@ -92,29 +92,30 @@
         </div>
 
         <div class="page-footer">
-            <div id="add-contact-info" style="padding: 1em; color: red;">Please add contact information before scheduling inspection.</div>
+            <div id="add-contact-info" style="padding: 1em; color: red;">Please complete contact information before scheduling inspection.</div>
             <button class="btn btn-primary btn-lg" ng-click="saveInspection()">Schedule Inspection</button>
             <script>
                 function areInputsFilledOut(inputsToCheck) {
                     for (var i = 0; i < inputsToCheck.length; i++) {
-                        if (inputsToCheck[i].value.length < 1) {
+                        if (inputsToCheck[i].value.toString().length < 1) {
                             return false;
                         }
                     }
                     return true;
                 }
-                function toggleButton(inputsAreFilled, button, reminder) {
-                    if (!inputsAreFilled) {
+                function toggleButton(inputsAreFilled) {
+                    var pageFooterSubmitButton = document.querySelector('.page-footer button.btn');
+                    var addInfoReminder = document.getElementById('add-contact-info');
+                    if (inputsAreFilled === false) {
                         // disable the button by adding attribute "disabled"
-                        button.disabled = true;
-                        reminder.className = '';
+                        pageFooterSubmitButton.disabled = true;
+                        addInfoReminder.className = '';
                     } else {
-                        button.disabled = false;
-                        reminder.className = 'hidden';
+                        pageFooterSubmitButton.disabled = false;
+                        addInfoReminder.className = 'hidden';
                     }
                 }
                 document.addEventListener("DOMContentLoaded", function() {
-                    var pageFooterSubmitButton = document.querySelector('.page-footer button.btn')
                     var contactInputs = Array.from(document
                         .getElementById('inspection-contact')
                         .getElementsByTagName('input')
@@ -122,18 +123,19 @@
                             // all inputs except ones with class hidden (because who needs a middle name)
                             return thisInput.parentNode.className.indexOf('hidden') === -1;
                         })
-                    var addInfoReminder = document.getElementById('add-contact-info');
 
                     // on initial load, deactivate button until all inputs have text
-                    var initialFilledInputs = areInputsFilledOut(contactInputs);
-                    toggleButton(initialFilledInputs, pageFooterSubmitButton, addInfoReminder)
+                    setTimeout(function() {
+                        var initialFilledInputs = areInputsFilledOut(contactInputs);
+                        toggleButton(initialFilledInputs)
+                    }, 250)
 
 
                     for (var contactIndex = 0; contactIndex < contactInputs.length; contactIndex++) {
                         var thisInput = contactInputs[contactIndex];
                         thisInput.addEventListener('keyup', function() {
                             var filledInputs = areInputsFilledOut(contactInputs);
-                            toggleButton(filledInputs, pageFooterSubmitButton, addInfoReminder)
+                            toggleButton(filledInputs)
                         })
                     }
                 })
