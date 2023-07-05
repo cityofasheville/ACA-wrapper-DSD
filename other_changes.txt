@@ -1,4 +1,0 @@
-File,Change
-AMCA/Loginm.aspx, Line 12 from placeholder="Username" to <input type="text" class="form-control txtlogin" id="userName" placeholder="Email Address" runat="server" />
-ACMA/Asset/js/Controllers/SelectDateController, add $scope.selectedTime = data[0].Item1; to line 141 in getTimes function
-AMCA/SelectDateTime.aspx, delete "to see a time" from "choose a date" header
